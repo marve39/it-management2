@@ -1,0 +1,76 @@
+registry:
+  image: arindra/registry-service
+  restart: always
+  ports:
+    - "8761:8761"
+  links:
+    - config
+
+config:
+  image: arindra/config-service
+  restart: always
+
+gateway:
+  image: arindra/gateway-service
+  restart: always
+  ports:
+   - "80:8765"
+  links:
+    - registry
+    - auth-server
+    - config
+    - percona
+    - users-service
+    - tasks-service
+    - comments-service
+    - web-portal
+
+auth-server:
+  image: arindra/auth-service
+  restart: always
+  ports:
+    - "8899:8899"
+  links:
+    - config
+    - percona
+    - registry
+
+percona:
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    volumes:
+      - /opt/perconadb:/var/lib/mysql
+    image: arindra/percona
+    restart: always
+
+web-portal:
+  image: arindra/web-portal
+  restart: always
+  links:
+    - registry
+    - config
+
+users-service:
+  image: arindra/users-service
+  restart: always
+  links:
+    - registry
+    - auth-server
+    - config
+
+tasks-service:
+  image: arindra/tasks-service
+  restart: always
+  links:
+    - registry
+    - auth-server
+    - config
+
+comments-service:
+  image: arindra/comments-service
+  restart: always
+  links:
+    - registry
+    - auth-server
+    - config
+
