@@ -16,6 +16,7 @@ authserver:
 # Spring cloud security would need to secure the api gateway before it can route the 
 # requests using zuul
 zuul:
+  ignoredServices: '*'
   routes:
     users-service: /api/user/**
     tasks-service: /api/task/**

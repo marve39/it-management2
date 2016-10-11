@@ -122,6 +122,9 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
 					.password("secret").roles("USER");
 			auth.jdbcAuthentication().dataSource(dataSource).withUser("anil")
 					.password("password").roles("ADMIN");
+
+			auth.jdbcAuthentication().dataSource(dataSource).withUser("arindra")
+                                        .password("password").roles("ADMIN");
 			// @formatter:on
 		}
 	}
